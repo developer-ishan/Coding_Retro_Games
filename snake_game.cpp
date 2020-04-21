@@ -6,8 +6,8 @@
 using namespace std;
 
 class game{
-    private:
-        int x,y,food_x,food_y,score,width,height,LENGTH;
+    protected:
+        int x,y,food_x,food_y,score,width,height,LENGTH,snake_speed;
         vector <int> body_x,body_y;
         enum direction{STOP = 0 , LEFT , RIGHT , UP , DOWN};
         direction dir;
@@ -20,9 +20,11 @@ class game{
         }
     public:
         bool gameOver;
-        game(){
-            system("cls");
-            cout<<"**********WELCOME**********GAMER*********"<<endl;
+        int speed(){
+            return snake_speed;
+        }
+        game()
+        {
             width=20;
             height=20;
             x = width/2;
@@ -35,6 +37,69 @@ class game{
             LENGTH=0;
             body_x.resize(LENGTH+2);
             body_y.resize(LENGTH+2);
+            int choice = 0;
+            mainMenu:
+            system("cls");
+            cout<<"\t\t\t\tWELCOME GAMER"<<endl;
+                cout<<"\n\t1. Start";
+                cout<<"\n\t2. Settings";
+                cout<<"\n\t3. View Scores";
+                cout<<"\n\t4. EXIT";
+                cout<<"\nYour Choice : ";
+            cin>>choice;
+            while(choice!=1)
+            {
+                switch(choice)
+                {
+                    case(1):
+                        break;
+                    case(2):
+                    while(1)
+                    {
+                        cout<<"\n\t\tSETTINGS";
+                        cout<<"\n\t1. Change Snake Speed";
+                        cout<<"\n\t2. Change The Arena";
+                        cout<<"\n\t3. Back";
+                        int set;
+                        cout<<"\nYour Choice : ";
+                        cin>>set;
+                        switch (set)
+                        {
+                        case 1:
+                            cout<<"\nEnter The Snake Speed (From 1 to 5)";
+                            cin>>snake_speed;
+                            if(snake_speed>5||snake_speed<=0)
+                                {
+                                    cout<<"\nNo Cheating Dude!!!!!!";
+                                    snake_speed=5;
+                                }
+                            break;
+                        case 2:
+                            cout<<"\nEnter the height of Arena (From 10 to 50 only): ";
+                            cin>>height;
+                            cout<<"\nEnter the width of Arena (From 10 to 50 only): ";
+                            cin>>width;
+                            if(height<10||height>50||width<10||height>50)
+                            {
+                                cout<<"Follow the instructions please.";
+                                height=20;
+                                width=20;
+                            }
+                        case 3:
+                            goto mainMenu;
+                        case 4:
+                            break;
+                        default:
+                            goto mainMenu;
+                        }
+                    }    
+                    case 3 :
+                        cout<<"Not availabe?\nWe are working on it.";
+                    default :
+                        goto mainMenu;
+
+                }
+            }
         }
         void controls(){
             if(_kbhit()){
@@ -137,8 +202,9 @@ class game{
 int main(){
     game snake;
     cout<<snake.gameOver;
-    while(!snake.gameOver){
-        Sleep(100);
+    while(!snake.gameOver)
+    {
+        Sleep(50*(5-snake.speed()));
         snake.controls();
         snake.game_working();
         snake.draw();
