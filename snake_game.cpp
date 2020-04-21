@@ -22,7 +22,7 @@ class game{
             gameOver = false;
         }
         input(){
-
+            
         }
         draw(){
             system("cls");
