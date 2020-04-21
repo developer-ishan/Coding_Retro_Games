@@ -119,6 +119,10 @@ class game{
             }
             if(x>width||x<0||y>height||y<0)
                 gameOver=true;
+            for(int i=0;i<LENGTH;i++){
+                if(x==body_x[i]&&y==body_y[i])
+                    gameOver=true;
+            }
             if(x==food_x&&y==food_y){
                 score+=10;
                 LENGTH++;
@@ -134,7 +138,7 @@ int main(){
     game snake;
     cout<<snake.gameOver;
     while(!snake.gameOver){
-        Sleep(20);
+        Sleep(100);
         snake.controls();
         snake.game_working();
         snake.draw();
